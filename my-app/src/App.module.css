@@ -1,5 +1,5 @@
 :root {
-	--primary: #d81e5b;
+	--primary: #34333d;
 	--secondary: #8c38ff;
 	--dark: #131a26;
 	--ligth: #eee;
@@ -30,7 +30,7 @@ body {
 .calculator {
 	width: 100%;
 	max-width: 400px;
-	background-color: #fff;
+	background-color: var(--primary);
 	border-radius: 16px;
 	overflow: hidden;
 	box-shadow: 0px 2px 64px rgba(0, 0, 0, 0.2);
@@ -48,7 +48,7 @@ body {
 /* Это правило относится к элементу с классом "display". Задает отступы внутри элемента равные 16 пикселям. Устанавливает выравнивание текста по правому краю и цвет фона, используя переменную --dark (темный). Задает цвет текста, используя переменную --ligth (светлый), размер шрифта 24 пикселя, и тонкий (300) шрифт. */
 
 .highlight {
-	color:aquamarine;
+	color:greenyellow;
 }
 
 /* Это правило применяется к элементам span внутри элемента с классом "display". Задает размер шрифта 14 пикселей и цвет текста #888. */
@@ -70,13 +70,15 @@ opacity: 0.9;
 }
 /* Это правило применяется при наведении курсора на элемент button. Устанавливает непрозрачность элемента на 0.9, чтобы создать эффект затемнения при наведении. */
 
-.operators {
+.container {
 	display: flex;
+	flex-wrap: wrap;
 }
 /* Это правило относится к элементу с классом "operators". Задает его отображение в виде flex-контейнера. */
 
-.operators button {
-	flex: 1 1 0%;
+.container button {
+	flex: 1 1 33.333%;
+	max-width: 33.333%;
 	background-color: var(--primary);
 	font-weight: 700;
 }

@@ -7,9 +7,9 @@ function App() {
 	const [operator, setOperator] = useState('');
 	const [isResult, setIsResult] = useState(false);
 
-	// Функция для обновления состояния операндов
+	// Function to update the state of operands
 	const updateOperand = (value) => {
-		// Проверяем, какие операнды обновлять. Если оператор есть то второй, если нет то первый
+		// Check which operand to update. If there's an operator, update the second operand. Otherwise, update the first operand.
 		if (!operator) {
 			setOperand1(operand1 + value);
 		} else {
@@ -17,27 +17,65 @@ function App() {
 		}
 	};
 
-	// Функция для создания кнопок с цифрами
-	const createDigits = () => {
-		const NUMS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+	// Function to create buttons for digits and operators
+	const createButtons = () => {
+		const buttonsData = [
+			{ label: '1', type: 'digit' },
+			{ label: '2', type: 'digit' },
+			{ label: '3', type: 'digit' },
+			{ label: '4', type: 'digit' },
+			{ label: '5', type: 'digit' },
+			{ label: '6', type: 'digit' },
+			{ label: '7', type: 'digit' },
+			{ label: '8', type: 'digit' },
+			{ label: '9', type: 'digit' },
+			{ label: '0', type: 'digit' },
+			{ label: '+', type: 'operator' },
+			{ label: '-', type: 'operator' },
+			{ label: 'C', type: 'clear' },
+			{ label: '=', type: 'equal' },
+		];
 
-		const numbersButtons = NUMS.map((number) => {
+		const buttons = buttonsData.map((button) => {
 			return (
 				<button
+					className={`${
+						button.type === 'digit'
+							? styles.digitsButton
+							: styles.operatorsButton
+					} ${
+						button.type === 'clear' || button.type === 'equal'
+							? styles.digitsButton
+							: ''
+					}`}
 					onClick={() => {
-						updateOperand(number);
-						setIsResult(false);
+						if (button.type === 'digit') {
+							updateOperand(button.label);
+							setIsResult(false);
+						} else if (button.type === 'operator') {
+							if (!operator) {
+								setOperator(button.label);
+							}
+							setIsResult(false);
+						} else if (button.type === 'clear') {
+							setIsResult(false);
+							clear();
+						} else if (button.type === 'equal') {
+							setIsResult(true);
+							resultat();
+						}
 					}}
-					key={number}
+					key={button.label}
 				>
-					{number}
+					{button.label}
 				</button>
 			);
 		});
 
-		return numbersButtons;
+		return buttons;
 	};
 
+	// Function to perform calculations
 	// Функция для выполнения вычислений
 	const resultat = () => {
 		let op1 = 0;
@@ -51,22 +89,21 @@ function App() {
 		}
 
 		// Вычисляем результат и обновляем до состояния результата
-		if (operator === '-') {
-			const resPlus = op1 - op2;
+		if (operator === '+') {
+			const resPlus = op1 + op2;
 			setOperand1(resPlus.toString());
 		}
 
-		if (operator === '+') {
-			const resMinus = op1 + op2;
+		if (operator === '-') {
+			const resMinus = op1 - op2;
 			setOperand1(resMinus.toString());
 		}
 		setOperand2('');
 		setOperator('');
 	};
 
-	// Функция для перевода калькуляторя в первоначальное состояние
+	// Function to reset the calculator state
 	const clear = () => {
-		// Обновляем состояние калькулятора до первоначального
 		setOperand1('');
 		setOperand2('');
 		setOperator('');
@@ -76,61 +113,10 @@ function App() {
 		<div className={styles.App}>
 			<div className={styles.calculator}>
 				<div className={`${styles.display} ${isResult ? styles.highlight : ''}`}>
-					{/* Если есть результат выводим его, иначе - 0 */}
 					{operand1 || '0'} {operator} {operand2}
 				</div>
-				{/* Блок кнопок операторов */}
-				<div className={styles.operators}>
-					{/* Кнопка плюс */}
-					<button
-						className={styles.operatorsButton}
-						onClick={() => {
-							if (!operator) {
-								setOperator('+');
-							}
-							setIsResult(false);
-						}}
-					>
-						+
-					</button>
-					{/* Кнопка минус */}
-					<button
-						className={styles.operatorsButton}
-						onClick={() => {
-							if (!operator) {
-								setOperator('-');
-							}
-							setIsResult(false);
-						}}
-					>
-						-
-					</button>
-				</div>
-				{/* Блок кнопок в стиле цифровых  */}
-				<div className={styles.digits}>
-					{/* Создаем кнопки с цифрами */}
-					{createDigits()}
-					{/* Кнопка С */}
-					<button
-						className={styles.digitsButton}
-						onClick={() => {
-							setIsResult(false);
-							clear();
-						}}
-					>
-						C
-					</button>
-					{/* Кнопка = */}
-					<button
-						className={styles.digitsButton}
-						onClick={() => {
-							setIsResult(true);
-							resultat();
-						}}
-					>
-						=
-					</button>
-				</div>
+				<div className={styles.container}>{createButtons()}</div>
+				{/* ... */}
 			</div>
 		</div>
 	);
