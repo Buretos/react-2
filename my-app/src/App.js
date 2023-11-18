@@ -21,6 +21,7 @@ export const App = () => {
 					{NUMS.map((num) => (
 						<button
 							className={styles.button}
+							key={num}
 							onClick={() => {
 								if (operator === '') {
 									if (operand1 === '0') {
@@ -45,6 +46,7 @@ export const App = () => {
 				<div className={styles.rightGroup}>
 					<button
 						className={styles.button}
+						key={'C'}
 						onClick={() => {
 							setOperand1('0');
 							setOperator('');
@@ -56,6 +58,7 @@ export const App = () => {
 					</button>
 					<button
 						className={styles.button}
+						key={'+'}
 						onClick={() => {
 							setOperator('+');
 							setIsResult(false);
@@ -65,6 +68,7 @@ export const App = () => {
 					</button>
 					<button
 						className={styles.button}
+						key={'-'}
 						onClick={() => {
 							setOperator('-');
 							setIsResult(false);
@@ -74,6 +78,7 @@ export const App = () => {
 					</button>
 					<button
 						className={styles.button}
+						key={'='}
 						onClick={() => {
 							if (operand2 !== '') {
 								switch (operator) {
